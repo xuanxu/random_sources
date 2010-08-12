@@ -25,7 +25,7 @@ module RandomSources
       @numbers=[]
 
       begin
-        response=open("http://www.random.org/integers/?max=#{url_params[:max]}&min=#{url_params[:min]}&base=#{url_params[:base]}&col=#{url_params[:col]}&rnd=#{url_params[:rnd]}&format=#{url_params[:format]}&num=#{url_params[:num]}") 
+        response=open("#{@website}integers/?max=#{url_params[:max]}&min=#{url_params[:min]}&base=#{url_params[:base]}&col=#{url_params[:col]}&rnd=#{url_params[:rnd]}&format=#{url_params[:format]}&num=#{url_params[:num]}") 
         response.each_line{|line| @numbers << line.to_i}
       rescue OpenURI::HTTPError => boom 
         raise StandardError.new("Error from server: "+boom.io.read.strip)   
