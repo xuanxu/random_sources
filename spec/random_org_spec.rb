@@ -97,8 +97,34 @@ describe RandomSources::RandomOrg do
       @generator.should_receive(:open).with(@default_query).and_return(@default_response)
       @generator.sequence(1, "10\" OR 1=1")
     end
+  end
+  
+  describe 'Quota checker' do
+    before(:each) do
+      @base_url = "http://www.random.org/quota/"
+      @default_params = {'format' => 'plain'}
+      @default_query = get_url(@base_url, @default_params)
+      @default_response = "8983847\n"
+      @generator = RandomSources::RandomOrg.new
+      @generator.stub!(:open).and_return(@default_response)
+    end
     
+    it "hits random_org quota checker url" do
+      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      @generator.quota
+    end
+    
+    it "returns the number of bits available" do
+      @generator.quota.should be_kind_of Integer
+    end
+    
+    it "raises an exception with the message from the server in case of a http error response" do
+      exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Quota checker disabled for maintenance"))
+      @generator.stub!(:open).and_raise(exc)
+      lambda{@generator.quota}.should raise_exception{|e| e.message.should == "Error from server: Quota checker disabled for maintenance"}
+    end
     
   end
+    
   
 end

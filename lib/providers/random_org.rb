@@ -24,12 +24,10 @@ module RandomSources
 
       numbers=[]
 
-      begin
+      check_for_http_errors{
         response=open("#{@website}integers/?max=#{url_params[:max]}&min=#{url_params[:min]}&base=#{url_params[:base]}&col=#{url_params[:col]}&rnd=#{url_params[:rnd]}&format=#{url_params[:format]}&num=#{url_params[:num]}") 
         response.each_line{|line| numbers << line.to_i}
-      rescue OpenURI::HTTPError => boom 
-        raise StandardError.new("Error from server: "+boom.io.read.strip)   
-      end
+      }
       
       numbers
     end
@@ -43,15 +41,22 @@ module RandomSources
                    }
       sequence_numbers=[]
 
-      begin
-       response=open("#{@website}sequences/?max=#{url_params[:max]}&min=#{url_params[:min]}&col=#{url_params[:col]}&rnd=#{url_params[:rnd]}&format=#{url_params[:format]}") 
+      check_for_http_errors{
+       response=open("#{@website}sequences/?max=#{url_params[:max]}&min=#{url_params[:min]}&col=#{url_params[:col]}&rnd=#{url_params[:rnd]}&format=#{url_params[:format]}")
        response.each_line{|line| sequence_numbers << line.to_i}
-      rescue OpenURI::HTTPError => boom 
-       raise StandardError.new("Error from server: "+boom.io.read.strip)   
-      end
+      }
 
       sequence_numbers
     end
+    
+    def quota
+      url_params = { :format => 'plain' }
+      check_for_http_errors{
+       response=open("#{@website}quota/?format=#{url_params[:format]}") 
+       return response.to_i
+      }
+    end
+    
 
 
     private 
@@ -59,5 +64,14 @@ module RandomSources
       (p.nil? || p.to_s=='') ? nil : p.to_i
     end
     
-  end  
+    def check_for_http_errors
+      begin
+        yield
+      rescue OpenURI::HTTPError => boom 
+       raise StandardError.new("Error from server: "+boom.io.read.strip)   
+      end
+    end
+    
+  end
+  
 end
