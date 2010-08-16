@@ -54,7 +54,57 @@ describe RandomSources::RandomOrg do
       @generator.should_receive(:open).with(@default_query).and_return(@default_response)
       @generator.integers(:max => "100' OR 1=1")
     end
+  end
+  
+  describe 'Sequence generator' do 
+    before(:each) do
+      @base_url = "http://www.random.org/sequences/"
+      @default_params = {'max' => 10, 
+                         'min' => 1, 
+                         'col' => 1, 
+                         'rnd' => 'new', 
+                         'format' => 'plain'}
+      @default_query = get_url(@base_url, @default_params)
+      @default_response = "8\n 10\n 4\n 1\n 6\n 2\n 3\n 9\n 5\n 7\n"
+      @generator = RandomSources::RandomOrg.new
+      @generator.stub!(:open).and_return(@default_response)
+    end
+    
+    it "hits random_org url with default query if no options provided" do
+      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      @generator.sequences
+    end
+    
+    it "hits random_org url with provided options" do
+      @generator.should_receive(:open).with( get_url(@base_url,
+                                             @default_params.merge({'max'=>33, 'min'=>21})) ).and_return(@default_response)
+      @generator.sequences(:max => 33, :min => 21)
+    end
+    
+    it "returns an Array of integers" do
+      @generator.sequences.class.should == Array
+      @generator.sequences.size.should == 10
+      @generator.sequences.first.should == 8
+    end
+    
+    it "raises an exception with the message from the server in case of a http error response" do
+      exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
+      @generator.stub!(:open).and_raise(exc)
+      lambda{@generator.sequences(:max=>-13000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
+    end
+    
+    it "do not let user modify format, col or rnd query params" do
+      @generator.should_receive(:open).with( get_url(@base_url,
+                                             @default_params.merge({'max'=>44, 'min'=>2})) ).and_return(@default_response)
+      @generator.sequences(:max => 44, :min => 2, :col => 4, :rnd => 'changed', :format => 'html')
+    end
+    
+    it "is protected against sql injection" do
+      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      @generator.sequences(:max => "7\" OR 1=1")
+    end
     
     
   end
+  
 end
