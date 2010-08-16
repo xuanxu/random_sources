@@ -1,4 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
+require 'open-uri'
+require 'net/http'
 
 describe RandomSources::RandomOrg do
   
@@ -34,6 +36,12 @@ describe RandomSources::RandomOrg do
       @generator.integers.class.should == Array
       @generator.integers.size.should == 7
       @generator.integers.first.should == 4
+    end
+    
+    it "raises an exception with the message from the server in case of a http error response" do
+      exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
+      @generator.stub!(:open).and_raise(exc)
+      lambda{@generator.integers(:max=>-12000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
     end
     
     it "do not let user modify format, col or rnd query params" do

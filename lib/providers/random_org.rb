@@ -33,6 +33,10 @@ module RandomSources
       
       @numbers
     end
+    
+    def sequence
+      
+    end
 
 
     private 
