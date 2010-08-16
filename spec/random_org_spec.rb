@@ -72,36 +72,30 @@ describe RandomSources::RandomOrg do
     
     it "hits random_org url with default query if no options provided" do
       @generator.should_receive(:open).with(@default_query).and_return(@default_response)
-      @generator.sequences
+      @generator.sequence(1, 10)
     end
     
     it "hits random_org url with provided options" do
-      @generator.should_receive(:open).with( get_url(@base_url,
+      @generator.should_receive(:open).with(get_url(@base_url,
                                              @default_params.merge({'max'=>33, 'min'=>21})) ).and_return(@default_response)
-      @generator.sequences(:max => 33, :min => 21)
+      @generator.sequence(21, 33)
     end
     
     it "returns an Array of integers" do
-      @generator.sequences.class.should == Array
-      @generator.sequences.size.should == 10
-      @generator.sequences.first.should == 8
+      @generator.sequence(1, 10).class.should == Array
+      @generator.sequence(1, 10).size.should == 10
+      @generator.sequence(1, 10).first.should == 8
     end
     
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
       @generator.stub!(:open).and_raise(exc)
-      lambda{@generator.sequences(:max=>-13000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
-    end
-    
-    it "do not let user modify format, col or rnd query params" do
-      @generator.should_receive(:open).with( get_url(@base_url,
-                                             @default_params.merge({'max'=>44, 'min'=>2})) ).and_return(@default_response)
-      @generator.sequences(:max => 44, :min => 2, :col => 4, :rnd => 'changed', :format => 'html')
+      lambda{@generator.sequence(0,-13000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
     end
     
     it "is protected against sql injection" do
       @generator.should_receive(:open).with(@default_query).and_return(@default_response)
-      @generator.sequences(:max => "7\" OR 1=1")
+      @generator.sequence(1, "10\" OR 1=1")
     end
     
     
