@@ -102,14 +102,14 @@ describe RandomSources::RandomOrg do
   describe 'String generator' do
     before(:each) do
       @base_url = "http://www.random.org/strings/"
-      @default_params = {'len' => 8, 
+      @default_params = {'num' => 10 ,
+                         'len' => 8, 
                          'digits' => 'on', 
                          'unique' => 'on', 
                          'upperalpha' => 'on',
                          'loweralpha' => 'on',
                          'rnd' => 'new', 
-                         'format' => 'plain', 
-                         'num' => 10 }
+                         'format' => 'plain'}
       @default_query = get_url(@base_url, @default_params)
       @default_response = "mfu0G89z\n azYZw48F\n qmcOUqIj\n TGytf0Hs\n 6f1jaYDC\n ExPLnE6N\n cWS3JoYW\n IGw2sCqm\n KpSsixvn\n Hw8F6oQC"
       @generator = RandomSources::RandomOrg.new
@@ -142,13 +142,13 @@ describe RandomSources::RandomOrg do
     
     it "do not let user modify format or rnd query params" do
       @generator.should_receive(:open).with( get_url(@base_url,
-                                             @default_params.merge({'len'=>50, 'min'=>3, 'num'=>4, 'unique'=>'off'})) ).and_return(@default_response)
+                                             @default_params.merge({'len'=>50, 'num'=>4, 'unique'=>'off', 'digits' => 'off'})) ).and_return(@default_response)
       @generator.strings(:len => 50, :digits => 'off', :num => 4, :unique => 'off', :rnd => 'changed', :format => 'html')
     end
     
     it "is protected against sql injection" do
       @generator.should_receive(:open).with(@default_query).and_return(@default_response)
-      @generator.strings(:len => "100' OR 1=1")
+      @generator.strings(:len => "8' OR 1=1")
     end
     
   end

@@ -49,6 +49,27 @@ module RandomSources
       sequence_numbers
     end
     
+    def strings(options = {})
+      url_params = { :num => clean(options[:num]) || 10,
+                     :len => clean(options[:len]) || 8, 
+                     :digits => check_on_off(options[:digits]) || 'on',
+                     :unique => check_on_off(options[:unique]) || 'on',
+                     :upperalpha => check_on_off(options[:upperalpha]) || 'on',
+                     :loweralpha => check_on_off(options[:loweralpha]) || 'on',
+                     :rnd => 'new',
+                     :format => 'plain'
+                   }
+
+      strings=[]
+
+      check_for_http_errors{
+        response=open("#{@website}strings/?num=#{url_params[:num]}&len=#{url_params[:len]}&digits=#{url_params[:digits]}&unique=#{url_params[:unique]}&upperalpha=#{url_params[:upperalpha]}&loweralpha=#{url_params[:loweralpha]}&rnd=#{url_params[:rnd]}&format=#{url_params[:format]}") 
+        response.each_line{|line| strings << line.strip}
+      }
+      
+      strings
+    end
+    
     def quota
       url_params = { :format => 'plain' }
       check_for_http_errors{
@@ -56,13 +77,16 @@ module RandomSources
        return response.to_i
       }
     end
-    
-
 
     private 
     def clean(p)
       (p.nil? || p.to_s=='') ? nil : p.to_i
     end
+    
+    def check_on_off(p)
+      return nil if p.nil?
+      ['ON', 'OFF'].include?(p.upcase) ? p : nil 
+    end  
     
     def check_for_http_errors
       begin
