@@ -35,7 +35,7 @@ Once you have your generator you can ask for the random bytes:
     generator.strings(:num => 2, :unique => 'on', :digits => 'on', :upperalpha => 'on', :loweralpha =>'off')
     # => ["6ESR61Y1", "K7520E6L"]
     
-You can get integers, strings, sequences, bytes, etc... For a list of all the options of any supported source, check the doc in the wikis.
+You can get integers, strings, sequences, bytes, etc... For a list of all the options of any supported source, check the doc in {the wiki}[http://github.com/xuanxu/random_sources/wikis]
 
 == Credits
 
