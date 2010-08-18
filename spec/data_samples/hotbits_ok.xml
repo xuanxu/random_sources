@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hotbits SYSTEM
+        "http://www.fourmilab.ch/hotbits/hotbits.dtd">
+<hotbits version="1.0">
+<status version="1.0" result="200">OK</status>
+<request-information version="1.0">
+    <server-version>Release 3.2, June 2008</server-version>
+    <generation-time>2008-06-17T21:50:52Z</generation-time>
+    <bytes-requested>37</bytes-requested>
+    <bytes-returned>37</bytes-returned>
+    <quota-requests-remaining>120</quota-requests-remaining>
+    <quota-bytes-remaining>12288</quota-bytes-remaining>
+</request-information>
+<random-data version="1.0">
+    6E A7 A7 74 DD A6 2A 99 AB 45 CC E7 E9 73 7C C8
+    9E FE 4F AB 59 C9 4C 63 64 D4 B2 AD 6C B5 2E 73
+    8F B1 B7 A8 96
+</random-data>
+</hotbits>

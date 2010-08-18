@@ -1,6 +1,4 @@
 require File.dirname(__FILE__) + '/spec_helper'
-require 'open-uri'
-require 'net/http'
 
 describe RandomSources::RandomOrg do
   

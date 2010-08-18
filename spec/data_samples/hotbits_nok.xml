@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hotbits SYSTEM
+        "http://www.fourmilab.ch/hotbits/hotbits.dtd">
+<hotbits version="1.0">
+<status version="1.0" result="503">You have exceeded your 24-hour quota for HotBits.</status>
+</hotbits>
