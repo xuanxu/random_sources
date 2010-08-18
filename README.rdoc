@@ -17,7 +17,7 @@ or add it to your Gemfile (if you're on Rails):
 
 == Usage
 
-Your entry point is the RandomSources class. With it you can get a list of supported providers and instantiate any of them:
+Your entry point is the RandomSources module. With it you can get a list of supported providers and instantiate any of them:
 
     RandomSources.list                   #=> "HotBits, RandomOrg"
     
