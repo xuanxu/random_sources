@@ -1,5 +1,12 @@
 module RandomSources
-
+  
+  # The RandomOrg class uses the http service provided by http://www.random.org.
+  #
+  # RANDOM.ORG offers numbers with randomness coming from atmospheric noise.
+  #
+  # The service assigns a daily quota of available random bits for IP.
+  #
+  # Use the service properly and check the website if you need more details about the terms of usage.
   class RandomOrg
     attr_reader :website
     
