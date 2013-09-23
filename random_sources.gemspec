@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.authors = ['Juanjo Bazán']
   gem.email = "jjbazan@gmail.com"
   gem.homepage = 'http://github.com/xuanxu/random_sources'
+  gem.license = 'MIT'
   
   gem.has_rdoc = true
   gem.rdoc_options = ['--main', 'README.rdoc', '--charset=UTF-8']
