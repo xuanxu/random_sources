@@ -43,6 +43,6 @@ You can get integers, strings, sequences, bytes, etc... For a list of all the op
 == Credits
 
 Author:: Juanjo Bazán 
-Copyright:: Copyright (c) 2010 Juanjo Bazán
+Copyright:: Copyright (c) 2010 - ∞ Juanjo Bazán
 License:: Released under the MIT license.
 
