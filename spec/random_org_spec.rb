@@ -16,7 +16,7 @@ describe RandomSources::RandomOrg do
       @default_query = get_url(@base_url, @default_params)
       @default_response = "4\n 8\n 15\n 16\n 23\n 33\n 42\n"
       @generator = RandomSources::RandomOrg.new
-      @generator.stub!(:open).and_return(@default_response)
+      allow(@generator).to receive(:open) { @default_response }
     end
 
     it "hits random_org url with default query if no options provided" do
@@ -38,7 +38,7 @@ describe RandomSources::RandomOrg do
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
-      @generator.stub!(:open).and_raise(exc)
+      allow(@generator).to receive(:open) { raise exc }
       lambda{@generator.integers(max: -12000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
     end
 
@@ -65,7 +65,7 @@ describe RandomSources::RandomOrg do
       @default_query = get_url(@base_url, @default_params)
       @default_response = "8\n 10\n 4\n 1\n 6\n 2\n 3\n 9\n 5\n 7\n"
       @generator = RandomSources::RandomOrg.new
-      @generator.stub!(:open).and_return(@default_response)
+      allow(@generator).to receive(:open) { @default_response }
     end
 
     it "hits random_org url with default query if no options provided" do
@@ -87,7 +87,7 @@ describe RandomSources::RandomOrg do
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
-      @generator.stub!(:open).and_raise(exc)
+      allow(@generator).to receive(:open) { raise exc }
       lambda{@generator.sequence(0, -13000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
     end
 
@@ -111,7 +111,7 @@ describe RandomSources::RandomOrg do
       @default_query = get_url(@base_url, @default_params)
       @default_response = "mfu0G89z\n azYZw48F\n qmcOUqIj\n TGytf0Hs\n 6f1jaYDC\n ExPLnE6N\n cWS3JoYW\n IGw2sCqm\n KpSsixvn\n Hw8F6oQC"
       @generator = RandomSources::RandomOrg.new
-      @generator.stub!(:open).and_return(@default_response)
+      allow(@generator).to receive(:open) { @default_response }
     end
 
     it "hits random_org url with default query if no options provided" do
@@ -134,7 +134,7 @@ describe RandomSources::RandomOrg do
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
-      @generator.stub!(:open).and_raise(exc)
+      allow(@generator).to receive(:open) { raise exc }
       lambda{@generator.strings(len: -40)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
     end
 
@@ -158,7 +158,7 @@ describe RandomSources::RandomOrg do
       @default_query = get_url(@base_url, @default_params)
       @default_response = "8983847\n"
       @generator = RandomSources::RandomOrg.new
-      @generator.stub!(:open).and_return(@default_response)
+      allow(@generator).to receive(:open) { @default_response }
     end
 
     it "hits random_org quota checker url" do
@@ -172,7 +172,7 @@ describe RandomSources::RandomOrg do
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Quota checker disabled for maintenance"))
-      @generator.stub!(:open).and_raise(exc)
+      allow(@generator).to receive(:open) { raise exc }
       lambda{@generator.quota}.should raise_exception{|e| e.message.should == "Error from server: Quota checker disabled for maintenance"}
     end
   end
