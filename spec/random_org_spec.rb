@@ -20,36 +20,36 @@ describe RandomSources::RandomOrg do
     end
 
     it "hits random_org url with default query if no options provided" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.integers
     end
 
     it "hits random_org url with provided options" do
-      @generator.should_receive(:open).with( get_url(@base_url,
+      expect(@generator).to receive(:open).with( get_url(@base_url,
                                              @default_params.merge({'max'=>50, 'min'=>3, 'num'=>4})) ).and_return(@default_response)
       @generator.integers(max: 50, min: 3, num: 4)
     end
 
     it "returns an Array of integers" do
-      @generator.integers.class.should == Array
-      @generator.integers.size.should == 7
-      @generator.integers.first.should == 4
+      expect(@generator.integers.class).to eq(Array)
+      expect(@generator.integers.size).to eq 7
+      expect(@generator.integers.first).to eq 4
     end
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
       allow(@generator).to receive(:open) { raise exc }
-      lambda{@generator.integers(max: -12000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
+      expect{@generator.integers(max: -12000000)}.to raise_exception{|e| expect(e.message).to eq("Error from server: Wrong query params")}
     end
 
     it "do not let user modify format, col or rnd query params" do
-      @generator.should_receive(:open).with( get_url(@base_url,
+      expect(@generator).to receive(:open).with( get_url(@base_url,
                                              @default_params.merge({'max'=>50, 'min'=>3, 'num'=>4})) ).and_return(@default_response)
       @generator.integers(max: 50, min: 3, num: 4, col: 4, rnd: 'changed', format: 'html')
     end
 
     it "is protected against sql injection" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.integers(max: "100' OR 1=1")
     end
   end
@@ -69,30 +69,30 @@ describe RandomSources::RandomOrg do
     end
 
     it "hits random_org url with default query if no options provided" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.sequence(1, 10)
     end
 
     it "hits random_org url with provided options" do
-      @generator.should_receive(:open).with(get_url(@base_url,
+      expect(@generator).to receive(:open).with(get_url(@base_url,
                                              @default_params.merge({'max'=>33, 'min'=>21})) ).and_return(@default_response)
       @generator.sequence(21, 33)
     end
 
     it "returns an Array of integers" do
-      @generator.sequence(1, 10).class.should == Array
-      @generator.sequence(1, 10).size.should == 10
-      @generator.sequence(1, 10).first.should == 8
+      expect(@generator.sequence(1, 10).class).to eq(Array)
+      expect(@generator.sequence(1, 10).size).to eq 10
+      expect(@generator.sequence(1, 10).first).to eq 8
     end
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
       allow(@generator).to receive(:open) { raise exc }
-      lambda{@generator.sequence(0, -13000000)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
+      expect{@generator.sequence(0, -13000000)}.to raise_exception{|e| expect(e.message).to eq("Error from server: Wrong query params")}
     end
 
     it "is protected against sql injection" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.sequence(1, "10\" OR 1=1")
     end
   end
@@ -115,37 +115,37 @@ describe RandomSources::RandomOrg do
     end
 
     it "hits random_org url with default query if no options provided" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.strings
     end
 
     it "hits random_org url with provided options" do
-      @generator.should_receive(:open).with( get_url(@base_url,
+      expect(@generator).to receive(:open).with( get_url(@base_url,
                                              @default_params.merge({'len'=>50, 'digits'=>'off', 'num'=>7, 'unique'=>'off'})) ).and_return(@default_response)
       @generator.strings(len: 50, digits: 'off', num: 7, unique: 'off')
     end
 
     it "returns an Array of strings" do
-      @generator.strings.class.should == Array
-      @generator.strings.size.should == 10
-      @generator.strings.first.should == "mfu0G89z"
-      @generator.strings.last.should == "Hw8F6oQC"
+      expect(@generator.strings.class).to eq(Array)
+      expect(@generator.strings.size).to eq 10
+      expect(@generator.strings.first).to eq("mfu0G89z")
+      expect(@generator.strings.last).to eq("Hw8F6oQC")
     end
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Wrong query params"))
       allow(@generator).to receive(:open) { raise exc }
-      lambda{@generator.strings(len: -40)}.should raise_exception{|e| e.message.should == "Error from server: Wrong query params"}
+      expect{@generator.strings(len: -40)}.to raise_exception{|e| expect(e.message).to eq("Error from server: Wrong query params")}
     end
 
     it "do not let user modify format or rnd query params" do
-      @generator.should_receive(:open).with( get_url(@base_url,
+      expect(@generator).to receive(:open).with( get_url(@base_url,
                                              @default_params.merge({'len'=>50, 'num'=>4, 'unique'=>'off', 'digits' => 'off'})) ).and_return(@default_response)
       @generator.strings(len: 50, digits: 'off', num: 4, unique: 'off', rnd: 'changed', format: 'html')
     end
 
     it "is protected against sql injection" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.strings(len: "8' OR 1=1")
     end
 
@@ -162,18 +162,18 @@ describe RandomSources::RandomOrg do
     end
 
     it "hits random_org quota checker url" do
-      @generator.should_receive(:open).with(@default_query).and_return(@default_response)
+      expect(@generator).to receive(:open).with(@default_query).and_return(@default_response)
       @generator.quota
     end
 
     it "returns the number of bits available" do
-      @generator.quota.should be_kind_of Integer
+      expect(@generator.quota).to be_kind_of Integer
     end
 
     it "raises an exception with the message from the server in case of a http error response" do
       exc = OpenURI::HTTPError.new("Error 503", StringIO.new("Quota checker disabled for maintenance"))
       allow(@generator).to receive(:open) { raise exc }
-      lambda{@generator.quota}.should raise_exception{|e| e.message.should == "Error from server: Quota checker disabled for maintenance"}
+      expect{@generator.quota}.to raise_exception{|e| expect(e.message).to eq("Error from server: Quota checker disabled for maintenance")}
     end
   end
 
