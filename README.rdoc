@@ -44,5 +44,5 @@ You can get integers, strings, sequences, bytes, etc... For a list of all the op
 
 Author:: Juanjo Bazán
 Copyright:: Copyright (c) 2010 - ∞ Juanjo Bazán
-License:: Released under the MIT license.
+License:: Released under the {MIT license}[https://github.com/xuanxu/random_sources/blob/master/MIT-LICENSE.txt].
 
