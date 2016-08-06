@@ -12,9 +12,9 @@ Install the gem:
 
 Then depending on your project you may:
 
-Require the gem (if a ruby project):
+Require the gem directly:
     require 'random_sources'
-or add it to your Gemfile (if you're on Rails):
+or add it to your Gemfile:
     gem 'random_sources', git: 'git://github.com/xuanxu/random_sources.git'
 
 
