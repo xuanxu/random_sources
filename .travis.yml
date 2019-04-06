@@ -9,8 +9,12 @@ rvm:
   - 2.5.5
   - 2.6.2
   - ruby-head
-  
+
 matrix:
   allow_failures:
     - rvm: ruby-head
   fast_finish: true
+
+install:
+  - gem install bundler:2.0.1
+  - bundle install
