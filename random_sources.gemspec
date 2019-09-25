@@ -13,7 +13,6 @@ Gem::Specification.new do |gem|
   gem.homepage = 'http://github.com/xuanxu/random_sources'
   gem.license = 'MIT'
 
-  gem.has_rdoc = true
   gem.rdoc_options = ['--main', 'README.rdoc', '--charset=UTF-8']
 
   gem.files = %w(MIT-LICENSE.txt README.rdoc) + Dir.glob("{spec,lib/**/*}") & `git ls-files -z`.split("\0")
