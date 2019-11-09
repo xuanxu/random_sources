@@ -1,10 +1,11 @@
-language: ruby
+Rlanguage: ruby
 sudo: false
 
 rvm:
   - 2.4.9
   - 2.5.7
   - 2.6.5
+  - truffleruby
   - ruby-head
 
 matrix:
