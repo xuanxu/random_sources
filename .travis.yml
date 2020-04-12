@@ -10,7 +10,7 @@ rvm:
   - truffleruby
   - ruby-head
 
-matrix:
+jobs:
   allow_failures:
     - rvm: truffleruby
     - rvm: ruby-head
